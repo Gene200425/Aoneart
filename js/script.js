@@ -149,92 +149,118 @@ style.textContent = `
 document.head.appendChild(style);
 
 // Formation Enrollment Handler
-const formationButtons = document.querySelectorAll('.formation-card .btn');
+const formationButtons = document.querySelectorAll('.formation-register-btn');
 
 formationButtons.forEach(button => {
     button.addEventListener('click', (e) => {
         e.preventDefault();
-        
-        const formationCard = button.closest('.formation-card');
-        const formationTitle = formationCard.querySelector('h4').textContent;
-        const formationType = formationCard.closest('.formation-type').querySelector('.formation-header h3').textContent;
-        
-        // Create modal for enrollment
+
         const modal = document.createElement('div');
         modal.className = 'formation-modal';
         modal.innerHTML = `
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>Inscription à la formation</h3>
+                    <h3>Choisissez votre mode</h3>
                     <span class="modal-close">&times;</span>
                 </div>
                 <div class="modal-body">
-                    <p><strong>${formationTitle}</strong></p>
-                    <p><em>${formationType}</em></p>
-                    <form class="enrollment-form">
-                        <div class="form-group">
-                            <label for="enrollment-name">Nom complet *</label>
-                            <input type="text" id="enrollment-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="enrollment-email">Email *</label>
-                            <input type="email" id="enrollment-email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="enrollment-phone">Téléphone</label>
-                            <input type="tel" id="enrollment-phone">
-                        </div>
-                        <div class="form-group">
-                            <label for="enrollment-message">Message (optionnel)</label>
-                            <textarea id="enrollment-message" rows="3" placeholder="Vos motivations, niveau actuel, etc."></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Confirmer l'inscription</button>
-                    </form>
+                    <p>Inscrivez-vous à la formation artistique complète.</p>
+                    <div class="mode-selection">
+                        <button class="mode-option" data-mode="presential">Présentiel</button>
+                        <button class="mode-option" data-mode="online">En ligne</button>
+                    </div>
+                    <div class="mode-content" id="modeContent">
+                        <p>Sélectionnez un mode pour continuer.</p>
+                    </div>
                 </div>
             </div>
         `;
-        
+
         document.body.appendChild(modal);
-        
-        // Show modal
         setTimeout(() => modal.classList.add('active'), 10);
-        
-        // Close modal functionality
+
         const closeBtn = modal.querySelector('.modal-close');
         closeBtn.addEventListener('click', () => {
             modal.classList.remove('active');
             setTimeout(() => modal.remove(), 300);
         });
-        
-        // Click outside to close
+
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.classList.remove('active');
                 setTimeout(() => modal.remove(), 300);
             }
         });
-        
-        // Handle enrollment form submission
-        const enrollmentForm = modal.querySelector('.enrollment-form');
-        enrollmentForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('enrollment-name').value;
-            const email = document.getElementById('enrollment-email').value;
-            const phone = document.getElementById('enrollment-phone').value;
-            const message = document.getElementById('enrollment-message').value;
-            
-            if (!name || !email) {
-                alert('Veuillez remplir tous les champs obligatoires');
-                return;
-            }
-            
-            // In a real application, you would send this data to a server
-            // For now, show success message
-            alert(`Merci ${name}! Votre inscription à "${formationTitle}" a été enregistrée. Nous vous contacterons bientôt pour confirmer les détails.`);
-            
-            modal.classList.remove('active');
-            setTimeout(() => modal.remove(), 300);
+
+        const modeContent = modal.querySelector('#modeContent');
+        modal.querySelectorAll('.mode-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const mode = option.getAttribute('data-mode');
+                if (mode === 'presential') {
+                    modeContent.innerHTML = `
+                        <div class="whatsapp-panel">
+                            <h4>Formation en présentiel</h4>
+                            <p>Vous serez redirigé vers WhatsApp pour discuter avec le service client et finaliser votre inscription.</p>
+                            <a href="https://wa.me/33123456789?text=Bonjour%20A-OneArt%20je%20souhaite%20m'inscrire%20à%20la%20formation%20en%20présentiel" target="_blank" class="btn btn-primary">Continuer sur WhatsApp</a>
+                        </div>
+                    `;
+                } else {
+                    modeContent.innerHTML = `
+                        <div class="online-payment-panel">
+                            <h4>Formation en ligne</h4>
+                            <p>Pour activer l'accès à l'espace en ligne, versez d'abord 50% du tarif de la formation.</p>
+                            <a href="https://buy.stripe.com/test_abc123" target="_blank" class="btn btn-secondary">Payer 50% maintenant</a>
+                            <p class="payment-instruction">Après paiement, cliquez sur « J'ai déjà payé » puis connectez-vous.</p>
+                            <button class="btn btn-primary confirm-payment-btn">J'ai déjà payé</button>
+                            <div class="online-login-block hidden">
+                                <form class="online-login-form">
+                                    <div class="form-group">
+                                        <label for="login-email">Email *</label>
+                                        <input type="email" id="login-email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="login-password">Mot de passe *</label>
+                                        <input type="password" id="login-password" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Se connecter</button>
+                                </form>
+                            </div>
+                        </div>
+                    `;
+
+                    const confirmPaymentBtn = modeContent.querySelector('.confirm-payment-btn');
+                    const loginBlock = modeContent.querySelector('.online-login-block');
+                    const onlineForm = modeContent.querySelector('.online-login-form');
+
+                    if (localStorage.getItem('aOneArt_trainingDepositPaid') === 'true') {
+                        loginBlock.classList.remove('hidden');
+                        confirmPaymentBtn.textContent = 'Paiement déjà confirmé, connectez-vous';
+                        confirmPaymentBtn.disabled = true;
+                    }
+
+                    confirmPaymentBtn.addEventListener('click', () => {
+                        localStorage.setItem('aOneArt_trainingDepositPaid', 'true');
+                        loginBlock.classList.remove('hidden');
+                        confirmPaymentBtn.textContent = 'Paiement confirmé, connectez-vous';
+                        confirmPaymentBtn.disabled = true;
+                    });
+
+                    onlineForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        const email = document.getElementById('login-email').value;
+                        const password = document.getElementById('login-password').value;
+                        if (!email || !password) {
+                            alert('Veuillez entrer un email et un mot de passe pour continuer.');
+                            return;
+                        }
+                        if (localStorage.getItem('aOneArt_trainingDepositPaid') !== 'true') {
+                            alert('Vous devez d’abord verser 50 % pour accéder à l’espace en ligne.');
+                            return;
+                        }
+                        window.location.href = `online-space.html?email=${encodeURIComponent(email)}&paid=true`;
+                    });
+                }
+            });
         });
     });
 });
@@ -265,7 +291,7 @@ modalStyle.textContent = `
         background: white;
         border-radius: 8px;
         width: 90%;
-        max-width: 500px;
+        max-width: 560px;
         max-height: 90vh;
         overflow-y: auto;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -305,19 +331,51 @@ modalStyle.textContent = `
         padding: 1.5rem;
     }
     
-    .enrollment-form .form-group {
+    .mode-selection {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin: 1rem 0;
+    }
+    
+    .mode-option {
+        flex: 1;
+        padding: 1rem;
+        border: 2px solid var(--primary-color);
+        background: var(--white);
+        color: var(--primary-color);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .mode-option:hover {
+        background: var(--primary-color);
+        color: #fff;
+    }
+    
+    .mode-content h4 {
+        margin-top: 0;
+        color: var(--primary-color);
+    }
+    
+    .login-panel,
+    .whatsapp-panel {
+        margin-top: 1rem;
+    }
+    
+    .online-login-form .form-group {
         margin-bottom: 1rem;
     }
     
-    .enrollment-form label {
+    .online-login-form label {
         display: block;
         margin-bottom: 0.5rem;
         color: #8B4513;
         font-weight: 600;
     }
     
-    .enrollment-form input,
-    .enrollment-form textarea {
+    .online-login-form input {
         width: 100%;
         padding: 0.75rem;
         border: 1px solid #ddd;
@@ -327,16 +385,20 @@ modalStyle.textContent = `
         transition: border-color 0.3s ease;
     }
     
-    .enrollment-form input:focus,
-    .enrollment-form textarea:focus {
+    .online-login-form input:focus {
         outline: none;
         border-color: #8B4513;
         box-shadow: 0 0 5px rgba(139, 69, 19, 0.3);
     }
-    
-    .enrollment-form .btn {
-        width: 100%;
-        margin-top: 1rem;
+
+    .hidden {
+        display: none !important;
+    }
+
+    .payment-instruction {
+        margin: 1rem 0;
+        color: #8B4513;
+        font-weight: 600;
     }
 `;
 document.head.appendChild(modalStyle);
