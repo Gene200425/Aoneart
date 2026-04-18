@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - A-OneArt</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">A-OneArt</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="portfolio.html" class="active">Portfolio</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">À propos</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Notre Portfolio</h1>
+            <p>Découvrez nos réalisations et projets</p>
+        </div>
+    </section>
+
+    <!-- Filter Buttons -->
+    <section class="portfolio-section">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Tous</button>
+                <button class="filter-btn" data-filter="serigraphie">Sérigraphie</button>
+                <button class="filter-btn" data-filter="portrait">Portrait</button>
+                <button class="filter-btn" data-filter="dessin">Dessin</button>
+            </div>
+
+            <!-- Portfolio Gallery -->
+            <div class="portfolio-grid">
+                <div class="portfolio-item" data-category="serigraphie">
+                    <img src="images/portfolio1.avif" alt="Sérigraphie 1">
+                    <div class="portfolio-info">
+                        <h3>Sérigraphie Moderne</h3>
+                        <p class="category">Sérigraphie</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="portrait">
+                    <img src="images/portfolio2.avif" alt="Portrait 1">
+                    <div class="portfolio-info">
+                        <h3>Portrait Classique</h3>
+                        <p class="category">Portrait</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="dessin">
+                    <img src="images/portfolio3.avif" alt="Dessin 1">
+                    <div class="portfolio-info">
+                        <h3>Dessin Paysage</h3>
+                        <p class="category">Dessin</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="serigraphie">
+                    <img src="images/portfolio4.avif" alt="Sérigraphie 2">
+                    <div class="portfolio-info">
+                        <h3>Impression Textile</h3>
+                        <p class="category">Sérigraphie</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="portrait">
+                    <img src="images/portfolio5.avif" alt="Portrait 2">
+                    <div class="portfolio-info">
+                        <h3>Portrait Contemporain</h3>
+                        <p class="category">Portrait</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="dessin">
+                    <img src="images/portfolio6.avif" alt="Dessin 2">
+                    <div class="portfolio-info">
+                        <h3>Sketch Illustration</h3>
+                        <p class="category">Dessin</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="dessin">
+                    <img src="images/portfolio7.jpg" alt="Dessin 2">
+                    <div class="portfolio-info">
+                        <h3>Sketch Illustration</h3>
+                        <p class="category">Dessin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Vous aimez notre style?</h2>
+            <p>Contactez-nous pour discuter de votre projet</p>
+            <a href="contact.html" class="btn btn-primary">Demander un devis</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>A-OneArt</h4>
+                    <p>Votre partenaire pour toutes vos créations artistiques</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liens rapides</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: contact@a-oneart.com</p>
+                    <p>Téléphone: +33 1 23 45 67 89</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 A-OneArt. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
